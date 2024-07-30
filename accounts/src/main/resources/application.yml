@@ -19,3 +19,11 @@ spring:
   show-sql: true
 build:
  version: "1.0"
+accounts:
+ message: "Welcome to EazyBank accounts related to API"
+ contactDetails:
+  name: "John Doe - Developer"
+  email: "john.doe@test.com"
+ onCallSupport:
+  - (444)333-2211
+  - (222)999-1100
