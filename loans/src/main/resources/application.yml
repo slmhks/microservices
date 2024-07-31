@@ -17,19 +17,6 @@ spring:
       ddl-auto: update
     show-sql: true
   config:
-    import:
-      - "application_qa.yml"
-      - "application_prod.yml"
+    import: "optional:configserver:http://localhost:8071/"
   profiles:
-    active:
-      - "qa"
-build:
-  version: "3.0"
-loans:
-  message: "Welcome to Eazy Bank loans related to APIs"
-  contactDetails:
-    name: "Dina Dom - Developer"
-    email: "dina.dom@test.com"
-  onCallSupport:
-    - (333)333-1111
-    - (333)333-1112
+    active: "prod"
