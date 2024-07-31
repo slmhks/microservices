@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+build:
+  version: "1.0"
+loans:
+  message: "Welcome to Eazy Bank loans related to production APIs"
+  contactDetails:
+    name: "Herbert Lerner - Product Owner"
+    email: "herbert.lerner@test.com"
+  onCallSupport:
+    - (333)333-1113
+    - (333)333-1114

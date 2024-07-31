@@ -193,7 +193,7 @@ public class AccountController {
     }
 
     @Operation(
-            summary = "Get contact info",
+            summary = "Get contact info for Accounts",
             description = "REST API to get the contact information as well as the on call support numbers"
     )
     @ApiResponses({

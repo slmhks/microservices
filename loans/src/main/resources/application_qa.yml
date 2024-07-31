@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+build:
+  version: "2.0"
+loans:
+  message: "Welcome to Eazy Bank loans related to QA APIs"
+  contactDetails:
+    name: "Andrew Toms - QA Tester"
+    email: "andrew.toms@test.com"
+  onCallSupport:
+    - (333)333-1115
+    - (333)333-1116
