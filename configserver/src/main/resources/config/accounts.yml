@@ -1,0 +1,10 @@
+build:
+ version: "3.0"
+accounts:
+ message: "Welcome to Eazy Bank accounts related to APIs"
+ contactDetails:
+  name: "John Doe - Developer"
+  email: "john.doe@test.com"
+ onCallSupport:
+  - (111)111-2222
+  - (111)111-2223
