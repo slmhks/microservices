@@ -18,6 +18,8 @@ spring:
           force-pull: true
 server:
   port: 8071
+encrypt:
+  key: dLk0AGDNu3cJIG75N+RdliF96tPVcXKSqOuZdbr+X5s=
 
 logging:
   level:
