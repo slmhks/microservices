@@ -11,6 +11,8 @@ services:
       timeout: 5s
       retries: 10
       start_period: 5s
+    networks:
+      - "eazybank"
   configserver:
     image: "solomonhykes/configserver:s6"
     container_name: "configserver-ms"
