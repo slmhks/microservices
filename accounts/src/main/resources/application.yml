@@ -20,3 +20,13 @@ spring:
   import: "optional:configserver:http://localhost:8071/"
  profiles:
   active: "prod"
+ rabbitmq:
+  host: "192.168.186.128"
+  port: 5672
+  username: "guest"
+  password: "guest"
+management:
+ endpoints:
+  web:
+   exposure:
+    include: "*"
