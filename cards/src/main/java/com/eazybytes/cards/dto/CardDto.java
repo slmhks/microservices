@@ -38,7 +38,7 @@ public class CardDto {
             description = "Total Limit of card in case its type is CREDIT", example = "2500.00"
     )
     @DecimalMin(value = "500.00", inclusive = true, message = "The minimum valid amount is 500.00.")
-    @DecimalMax(value = "3000.00", inclusive = true, message = "The maximum valida amount is 3000.00.")
+    @DecimalMax(value = "3000.00", inclusive = true, message = "The maximum valid amount is 3000.00.")
     private BigDecimal totalLimit;
 
     @Schema(

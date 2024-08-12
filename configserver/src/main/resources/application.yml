@@ -7,7 +7,7 @@ spring:
   cloud:
     config:
       server:
-        #native:
+        native:
           #search-locations: "classpath:/config"
           #search-locations: "file:///C:/test/config"
         git:
@@ -16,11 +16,7 @@ spring:
           clone-on-start: true
           timeout: 5
           force-pull: true
-  rabbitmq:
-    host: "192.168.186.128"
-    port: 5672
-    username: "guest"
-    password: "guest"
+
 management:
   endpoints:
     web:

@@ -3,6 +3,20 @@ services:
     networks:
       - eazybank
 
+  microservice-db-config:
+    extends:
+      service: network-deploy-service
+    image: mysql:8-oracle
+    healthcheck:
+      test: [ "CMD","mysqladmin","ping","-h","localhost" ]
+      interval: 80s
+      timeout: 30s
+      retries: 5
+      start_period: 120s
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_PASSWORD: password
+
   microservice-base-config:
     extends:
       service: network-deploy-service
@@ -10,12 +24,10 @@ services:
       resources:
         limits:
           memory: 700m
-    environment:
-      SPRING_RABBIT_MQ: "rabbit"
 
   microservice-configserver-config:
     extends:
       service: microservice-base-config
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
