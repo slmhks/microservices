@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.eazybytes</groupId>
 	<artifactId>loans</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>loans</name>
 	<description>Project for Loans in Eazy Bank</description>
@@ -119,7 +119,7 @@
 				<version>3.3.2</version>
 				<configuration>
 					<to>
-						<image>solomonhykes/${project.artifactId}:s7</image>
+						<image>solomonhykes/${project.artifactId}:s8</image>
 					</to>
 				</configuration>
 			</plugin>
