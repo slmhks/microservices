@@ -5,6 +5,7 @@ import com.eazybytes.loans.dto.ErrorResponseDto;
 import com.eazybytes.loans.dto.LoansContactInfoDto;
 import com.eazybytes.loans.dto.LoansDto;
 import com.eazybytes.loans.dto.ResponseDto;
+import com.eazybytes.loans.helper.NetworkHelper;
 import com.eazybytes.loans.service.ILoansService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -104,6 +105,8 @@ public class LoansController {
                                                      @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
                                                      String mobileNumber) {
         LoansDto loansDto = iLoansService.fetchLoan(mobileNumber);
+        loansDto.setServerPort(this.environment.getProperty("local.server.port"));
+        loansDto.setNetworkDetails(NetworkHelper.getIpAddress());
         return ResponseEntity.status(HttpStatus.OK).body(loansDto);
     }
 
@@ -219,7 +222,10 @@ public class LoansController {
     })
     @GetMapping(path = "/java-version")
     public ResponseEntity<String> getJavaVersion() {
-        return ResponseEntity.status(HttpStatus.OK).body(this.environment.getProperty("JAVA_HOME"));
+        String information = String.format("Server.Port = %s, Java.Home = %s",
+                this.environment.getProperty("local.server.port"),
+                this.environment.getProperty("JAVA_HOME"));
+        return ResponseEntity.status(HttpStatus.OK).body(information);
     }
 
     @Operation(

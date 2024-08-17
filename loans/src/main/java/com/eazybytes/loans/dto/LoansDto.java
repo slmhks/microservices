@@ -52,4 +52,14 @@ public class LoansDto {
     )
     private int outstandingAmount;
 
+    @Schema(
+            description = "Server port on which the microservice is running."
+    )
+    private String serverPort;
+
+    @Schema(
+            description = "Network details that include hostname and IP address"
+    )
+    private String networkDetails;
+
 }

@@ -46,11 +46,11 @@ public class CustomersServiceImpl implements ICustomersService {
 
         // Convert to Customer Details
         CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+        AccountsDto accountsDto = AccountsMapper.mapToAccountsDto(accounts, new AccountsDto());
 
         CustomerDetailsDto customerDetailsDto = CustomerMapper.mapToCustomerDetailsDto(customerDto, new CustomerDetailsDto());
-        AccountsDto accountsDto = AccountsMapper.mapToAccountsDto(accounts, new AccountsDto());
-        customerDto.setAccountsDto(accountsDto);
 
+        customerDetailsDto.setAccountsDto(accountsDto);
         customerDetailsDto.setCardDto(cardDto);
         customerDetailsDto.setLoansDto(loansDto);
 

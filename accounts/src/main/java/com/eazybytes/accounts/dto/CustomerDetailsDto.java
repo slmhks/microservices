@@ -44,7 +44,7 @@ public class CustomerDetailsDto {
     @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits.")
     private String mobileNumber;
 
-    private CustomerDto customerDto;
+    private AccountsDto accountsDto;
     private CardDto cardDto;
     private LoansDto loansDto;
 
