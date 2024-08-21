@@ -1,3 +1,6 @@
+server:
+  port: 8071
+
 spring:
   application:
     name: "configserver"
@@ -31,10 +34,10 @@ management:
     health:
       probes:
         enabled: true
-server:
-  port: 8071
+
 encrypt:
   key: dLk0AGDNu3cJIG75N+RdliF96tPVcXKSqOuZdbr+X5s=
+
 logging:
   level:
     org.springframework.cloud.config.server: DEBUG

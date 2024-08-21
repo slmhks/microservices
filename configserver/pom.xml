@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.eazybytes</groupId>
 	<artifactId>configserver</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<name>configserver</name>
 	<description>Config Server for Spring Boot Projects</description>
 	<url/>
@@ -69,17 +69,7 @@
 				<version>3.3.2</version>
 				<configuration>
 					<to>
-						<image>solomonhykes/${project.artifactId}:s7</image>
-					</to>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>jib-maven-plugin</artifactId>
-				<version>3.3.2</version>
-				<configuration>
-					<to>
-						<image>solomonhykes/${project.artifactId}:s8</image>
+						<image>solomonhykes/${project.artifactId}:s9</image>
 					</to>
 				</configuration>
 			</plugin>

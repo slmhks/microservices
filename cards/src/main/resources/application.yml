@@ -22,9 +22,17 @@ management:
   web:
    exposure:
     include: "*"
+ health:
+  readines-status:
+   enabled: true
+  liveness-status:
+   enabled: true
  endpoint:
   shutdown:
    enabled: true
+  health:
+   probes:
+    enabled: true
  info:
   env:
    enabled: true
@@ -43,3 +51,9 @@ info:
   name: "cards"
   description: "Eazy Bank Cards Application"
   version: "1.0.0"
+
+logging:
+ level:
+  com:
+   eazybytes:
+    cards: DEBUG

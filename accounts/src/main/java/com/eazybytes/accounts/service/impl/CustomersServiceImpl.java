@@ -28,20 +28,21 @@ public class CustomersServiceImpl implements ICustomersService {
      * This method get the customer and its associated accounts, cards and loans
      *
      * @param mobileNumber mobile number composed of 10 digits
+     * @param correlationId correlation id for logging purposes
      * @return customer details dto
      */
     @Override
-    public CustomerDetailsDto fetchCustomerDetails(String mobileNumber) {
+    public CustomerDetailsDto fetchCustomerDetails(String correlationId, String mobileNumber) {
         Customer customer = this.customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("customer", "mobileNumber", mobileNumber)
         );
         Accounts accounts = this.accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
                 () -> new ResourceNotFoundException("account", "customerId", customer.getCustomerId().toString())
         );
-        ResponseEntity<CardDto> responseCardDto = this.cardsFeignClient.fetchCardDetails(mobileNumber);
+        ResponseEntity<CardDto> responseCardDto = this.cardsFeignClient.fetchCardDetails(correlationId, mobileNumber);
         CardDto cardDto = responseCardDto.getBody();
 
-        ResponseEntity<LoansDto> responseLoansDto = this.loansFeignClient.fetchLoanDetails(mobileNumber);
+        ResponseEntity<LoansDto> responseLoansDto = this.loansFeignClient.fetchLoanDetails(correlationId, mobileNumber);
         LoansDto loansDto = responseLoansDto.getBody();
 
         // Convert to Customer Details

@@ -28,3 +28,6 @@ replay_pid*
 accounts/target
 cards/target
 loans/target
+eurekaserver/target
+gatewayserver/target
+configserver/target

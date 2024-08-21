@@ -9,8 +9,9 @@ public interface ICustomersService {
 
     /**
      * This method get the customer and its associated accounts, cards and loans
+     * @param correlationId correlation id for logging purposes
      * @param mobileNumber mobile number composed of 10 digits
      * @return customer details dto
      */
-    public CustomerDetailsDto fetchCustomerDetails(String mobileNumber);
+    public CustomerDetailsDto fetchCustomerDetails(String correlationId, String mobileNumber);
 }
