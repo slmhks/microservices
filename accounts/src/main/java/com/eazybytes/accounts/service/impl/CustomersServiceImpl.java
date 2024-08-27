@@ -40,10 +40,7 @@ public class CustomersServiceImpl implements ICustomersService {
                 () -> new ResourceNotFoundException("account", "customerId", customer.getCustomerId().toString())
         );
         ResponseEntity<CardDto> responseCardDto = this.cardsFeignClient.fetchCardDetails(correlationId, mobileNumber);
-        CardDto cardDto = responseCardDto.getBody();
-
         ResponseEntity<LoansDto> responseLoansDto = this.loansFeignClient.fetchLoanDetails(correlationId, mobileNumber);
-        LoansDto loansDto = responseLoansDto.getBody();
 
         // Convert to Customer Details
         CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
@@ -52,8 +49,14 @@ public class CustomersServiceImpl implements ICustomersService {
         CustomerDetailsDto customerDetailsDto = CustomerMapper.mapToCustomerDetailsDto(customerDto, new CustomerDetailsDto());
 
         customerDetailsDto.setAccountsDto(accountsDto);
-        customerDetailsDto.setCardDto(cardDto);
-        customerDetailsDto.setLoansDto(loansDto);
+        if (responseCardDto != null) {
+            CardDto cardDto = responseCardDto.getBody();
+            customerDetailsDto.setCardDto(cardDto);
+        }
+        if (responseLoansDto != null) {
+            LoansDto loansDto = responseLoansDto.getBody();
+            customerDetailsDto.setLoansDto(loansDto);
+        }
 
         return customerDetailsDto;
     }

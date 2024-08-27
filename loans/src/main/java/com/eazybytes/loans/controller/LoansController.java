@@ -254,6 +254,7 @@ public class LoansController {
     })
     @GetMapping(path = "/contact-info")
     public ResponseEntity<LoansContactInfoDto> getContactInfo() {
+        logger.debug("Invoked contact-info API in the Loans microservice");
         return ResponseEntity.ok().body(this.contactInfoDto);
     }
 
