@@ -12,6 +12,12 @@ spring:
       http-client:
         connect-timeout: 1000
         response-timeout: 2s
+  data:
+    redis:
+      connect-timeout: 2s
+      host: 192.168.186.128
+      port: 6379
+      timeout: 1s
 
 management:
   endpoints:
