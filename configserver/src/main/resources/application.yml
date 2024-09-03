@@ -19,6 +19,9 @@ spring:
           clone-on-start: true
           timeout: 5
           force-pull: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 management:
   endpoints:

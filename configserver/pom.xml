@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.eazybytes</groupId>
 	<artifactId>configserver</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<name>configserver</name>
 	<description>Config Server for Spring Boot Projects</description>
 	<url/>
@@ -44,6 +44,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -69,7 +73,7 @@
 				<version>3.3.2</version>
 				<configuration>
 					<to>
-						<image>solomonhykes/${project.artifactId}:s10</image>
+						<image>solomonhykes/${project.artifactId}:s11</image>
 					</to>
 				</configuration>
 			</plugin>

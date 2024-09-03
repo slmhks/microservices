@@ -16,6 +16,9 @@ spring:
    mode: always
  config:
   import: "optional:configserver:http://localhost:8071/"
+ metrics:
+  tags:
+   application: ${spring.application.name}
 
 management:
  endpoints:
