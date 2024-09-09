@@ -91,6 +91,19 @@ services:
       file: common-config.yml
       service: network-deploy-service
 
+  tempo:
+    image: grafana/tempo:2.4.2
+    container_name: tempo
+    command: -config.file /etc/tempo-config.yml
+    ports:
+      - "3110:3100"
+      - "4317:4317"
+    volumes:
+      - ../observability/tempo/tempo.yml:/etc/tempo-config.yml
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
+
   grafana:
     image: grafana/grafana:latest
     environment:
@@ -249,6 +262,8 @@ services:
       timeout: 30s
       retries: 5
       start_period: 120s
+    environment:
+      OTER_SERVICE_NAME: "configserver"
     extends:
       file: common-config.yml
       service: microservice-base-config
@@ -280,11 +295,11 @@ services:
       timeout: 30s
       retries: 5
       start_period: 120s
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
     extends:
       file: common-config.yml
       service: microservice-configserver-config
-    environment:
-      SPRING_APPLICATION_NAME: "eurekaserver"
 
   accounts:
     image: "solomonhykes/accounts:s11"
@@ -307,6 +322,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "accounts"
       SPRING_DATASOURCE_URL: jdbc:mysql://accountsdb:3306/accountsdb
+      OTER_SERVICE_NAME: "accounts"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -332,6 +348,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "cards"
       SPRING_DATASOURCE_URL: jdbc:mysql://cardsdb:3306/cardsdb
+      OTER_SERVICE_NAME: "cards"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -357,6 +374,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "loans"
       SPRING_DATASOURCE_URL: jdbc:mysql://loansdb:3306/loansdb
+      OTER_SERVICE_NAME: "loans"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -406,6 +424,7 @@ services:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_DATA_REDIS_TIMEOUT: 1s
+      OTER_SERVICE_NAME: "gatewayserver"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
