@@ -36,7 +36,7 @@ services:
       service: microservice-db-config
 
   configserver:
-    image: solomonhykes/configserver:s10
+    image: solomonhykes/configserver:s11
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -64,7 +64,7 @@ services:
       service: network-deploy-service
 
   eurekaserver:
-    image: solomonhykes/eurekaserver:s10
+    image: solomonhykes/eurekaserver:s11
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -84,7 +84,7 @@ services:
       SPRING_APPLICATION_NAME: "eurekaserver"
 
   accounts:
-    image: "solomonhykes/accounts:s10"
+    image: "solomonhykes/accounts:s11"
     container_name: "accounts-ms"
     ports:
       - "8080:8080"
@@ -109,7 +109,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: "solomonhykes/cards:s10"
+    image: "solomonhykes/cards:s11"
     container_name: "cards-ms"
     ports:
       - "9000:9000"
@@ -134,7 +134,7 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: "solomonhykes/loans:s10"
+    image: "solomonhykes/loans:s11"
     container_name: "loans-ms"
     ports:
       - "8090:8090"
@@ -159,7 +159,7 @@ services:
       service: microservice-eureka-config
 
   loans1:
-    image: "solomonhykes/loans:s10"
+    image: "solomonhykes/loans:s11"
     container_name: "loans1-ms"
     ports:
       - "8091:8090"
@@ -184,7 +184,7 @@ services:
       service: microservice-eureka-config
 
   gatewayserver:
-    image: "solomonhykes/gatewayserver:s10"
+    image: "solomonhykes/gatewayserver:s11"
     container_name: "gatewayserver-ms"
     ports:
       - "8072:8072"
