@@ -21,6 +21,11 @@ spring:
   metrics:
     tags:
       application: ${spring.application.name}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://192.168.186.128:7080/realms/master/protocol/openid-connect/certs"
 
 management:
   endpoints:
