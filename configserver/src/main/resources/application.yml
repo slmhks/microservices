@@ -1,0 +1,48 @@
+server:
+  port: 8071
+
+spring:
+  application:
+    name: "configserver"
+  profiles:
+    #active: native
+    active: git
+  cloud:
+    config:
+      server:
+        native:
+          #search-locations: "classpath:/config"
+          #search-locations: "file:///C:/test/config"
+        git:
+          uri: "https://github.com/solomonhykes/banking-ms-config.git"
+          default-label: main
+          clone-on-start: true
+          timeout: 5
+          force-pull: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-status:
+      enabled: true
+    liveness-status:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+encrypt:
+  key: dLk0AGDNu3cJIG75N+RdliF96tPVcXKSqOuZdbr+X5s=
+
+logging:
+  level:
+    org.springframework.cloud.config.server: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"

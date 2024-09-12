@@ -1,0 +1,10 @@
+build:
+ version: "3.0"
+cards:
+ message: "Welcome to the Eazy Bank cards related to APIs"
+ contactDetails:
+  name: "George Card"
+  email: "george.card@test.com"
+ onCallSupport:
+  - (222)222-1111
+  - (222)222-1112
