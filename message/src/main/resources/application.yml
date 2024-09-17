@@ -1,0 +1,16 @@
+server:
+  port: 9010
+
+spring:
+  application:
+    name: "message"
+  cloud:
+    function:
+      definition: email|sms
+
+logging:
+  level:
+    com:
+      eazybytes:
+        message: DEBUG
+
