@@ -2,6 +2,7 @@ package com.eazybytes.accounts.service.impl;
 
 import com.eazybytes.accounts.constants.AccountsConstants;
 import com.eazybytes.accounts.dto.AccountsDto;
+import com.eazybytes.accounts.dto.AccountsMsgDto;
 import com.eazybytes.accounts.dto.CustomerDto;
 import com.eazybytes.accounts.entity.Accounts;
 import com.eazybytes.accounts.entity.Customer;
@@ -13,6 +14,9 @@ import com.eazybytes.accounts.repository.AccountsRepository;
 import com.eazybytes.accounts.repository.CustomerRepository;
 import com.eazybytes.accounts.service.IAccountsService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,8 +27,11 @@ import java.util.Random;
 @AllArgsConstructor
 public class AccountServiceImpl implements IAccountsService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
+
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
+    private final StreamBridge streamBridge;
 
     /**
      * Create account
@@ -42,7 +49,8 @@ public class AccountServiceImpl implements IAccountsService {
         customer.setCreatedAt(LocalDateTime.now());
         customer.setCreatedBy("Anonymous");
         Customer savedCustomer = this.customerRepository.save(customer);
-        this.accountsRepository.save(this.createNewAccount(savedCustomer));
+        Accounts savedAccount = this.accountsRepository.save(this.createNewAccount(savedCustomer));
+        this.sendCommunication(savedAccount, savedCustomer);
     }
 
     private Accounts createNewAccount(Customer customer) {
@@ -117,5 +125,36 @@ public class AccountServiceImpl implements IAccountsService {
         this.accountsRepository.deleteByCustomerId(customer.getCustomerId());
         this.customerRepository.deleteById(customer.getCustomerId());
         return true;
+    }
+
+    private void sendCommunication(Accounts account, Customer customer) {
+        var accountsMsgDto = new AccountsMsgDto(account.getAccountNumber(), customer.getName(), customer.getEmail(), customer.getMobileNumber());
+        logger.info("Sending communication request for the details: {}", accountsMsgDto);
+        var result = this.streamBridge.send("sendCommunication-out-0", accountsMsgDto);
+        logger.info("Is the communication request successfully triggered? : {}", result);
+    }
+
+    /**
+     * This method is to be called when a communication status for an email or sms sent has been processed
+     * by the message microservice.
+     *
+     * @param accountNumber
+     * @return
+     */
+    @Override
+    public boolean updateCommunicationStatus(Long accountNumber) {
+        boolean isUpdated = false;
+        if (accountNumber != null) {
+            // String resourceName, String fieldName, String fieldValue
+            Accounts account = this.accountsRepository.findById(accountNumber).orElseThrow(
+                    () -> new ResourceNotFoundException("Account", "accountNumber", "")
+            );
+            account.setCommunicationSw(true);
+            this.accountsRepository.save(account);
+            isUpdated = true;
+
+            logger.info("Communication status updated successfully for accountNumber {}", accountNumber);
+        }
+        return isUpdated;
     }
 }

@@ -29,4 +29,13 @@ public interface IAccountsService {
      * @param mobileNumber
      */
     public boolean deleteAccount(String mobileNumber);
+
+    /**
+     * This method is to be called when a communication status for an email or sms sent has been processed
+     * by the message microservice.
+     * @param accountNumber
+     * @return
+     */
+    public boolean updateCommunicationStatus(Long accountNumber);
+
 }
