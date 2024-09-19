@@ -1,5 +1,21 @@
 services:
 
+  rabbit:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   keycloak:
     image: quay.io/keycloak/keycloak:22.0.1
     container_name: keycloak
@@ -266,7 +282,7 @@ services:
       service: microservice-db-config
 
   configserver:
-    image: solomonhykes/configserver:s12
+    image: solomonhykes/configserver:s13
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -277,7 +293,7 @@ services:
       retries: 5
       start_period: 120s
     environment:
-      OTER_SERVICE_NAME: "configserver"
+      OTEL_SERVICE_NAME: "configserver"
     extends:
       file: common-config.yml
       service: microservice-base-config
@@ -296,7 +312,7 @@ services:
       service: network-deploy-service
 
   eurekaserver:
-    image: solomonhykes/eurekaserver:s12
+    image: solomonhykes/eurekaserver:s13
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -316,7 +332,7 @@ services:
       service: microservice-configserver-config
 
   accounts:
-    image: "solomonhykes/accounts:s12"
+    image: "solomonhykes/accounts:s13"
     container_name: "accounts-ms"
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
@@ -331,16 +347,19 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
+      rabbit:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
       SPRING_DATASOURCE_URL: jdbc:mysql://accountsdb:3306/accountsdb
-      OTER_SERVICE_NAME: "accounts"
+      OTEL_SERVICE_NAME: "accounts"
+      SPRING_RABBITMQ_HOST: "rabbit"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
 
   cards:
-    image: "solomonhykes/cards:s12"
+    image: "solomonhykes/cards:s13"
     container_name: "cards-ms"
     healthcheck:
       test: "curl --fail --silent localhost:9000/actuator/health/readiness || grep UP | exit 1"
@@ -358,13 +377,13 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "cards"
       SPRING_DATASOURCE_URL: jdbc:mysql://cardsdb:3306/cardsdb
-      OTER_SERVICE_NAME: "cards"
+      OTEL_SERVICE_NAME: "cards"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
 
   loans:
-    image: "solomonhykes/loans:s12"
+    image: "solomonhykes/loans:s13"
     container_name: "loans-ms"
     healthcheck:
       test: "curl --fail --silent localhost:8090/actuator/health/readiness || grep UP | exit 1"
@@ -382,13 +401,13 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "loans"
       SPRING_DATASOURCE_URL: jdbc:mysql://loansdb:3306/loansdb
-      OTER_SERVICE_NAME: "loans"
+      OTEL_SERVICE_NAME: "loans"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
 
   gatewayserver:
-    image: "solomonhykes/gatewayserver:s12"
+    image: "solomonhykes/gatewayserver:s13"
     container_name: "gatewayserver-ms"
     ports:
       - "8072:8072"
@@ -405,11 +424,23 @@ services:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_DATA_REDIS_TIMEOUT: 1s
-      OTER_SERVICE_NAME: "gatewayserver"
+      OTEL_SERVICE_NAME: "gatewayserver"
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
+
+  message:
+    image: "solomonhykes/message:s13"
+    container_name: "message-ms"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
 
 networks:
   eazybank:
